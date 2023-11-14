@@ -191,7 +191,6 @@ watch(filterBy, ({ category, subCategory }) => {
 
     if (category) {
         getAllSubCategoriesOptions(category).then((res: any) => {
-            console.log(res);
             filterOptions.subCategories = res.data.map((item: any) => ({
                 text: item.name,
                 value: item.value,
