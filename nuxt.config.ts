@@ -19,22 +19,18 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
-            baseURL: 'http://localhost:4000',
+            baseURL: process.env.API_BASE_URL,
         },
     },
     components: [
         {
             path: '~/components/ui',
-            // this is required else Nuxt will autoImport `.ts` file
             extensions: ['.vue'],
-            // prefix for your components, eg: UiButton
             prefix: 'Ui',
         },
         {
             path: '~/components/app',
-            // this is required else Nuxt will autoImport `.ts` file
             extensions: ['.vue'],
-            // prefix for your components, eg: UiButton
             prefix: 'App',
         },
         {
