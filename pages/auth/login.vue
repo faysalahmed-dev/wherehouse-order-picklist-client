@@ -45,7 +45,7 @@ const onSubmit = form.handleSubmit(async values => {
 });
 </script>
 <template>
-    <div class="w-full h-full flex justify-center items-center">
+    <div class="w-full h-full flex justify-center items-center px-6 md:px-0">
         <form class="w-96 space-y-6" @submit.prevent="onSubmit">
             <h2 class="text-lg font-bold">Login with you credentials</h2>
             <FormField v-slot="{ componentField }" name="email">

@@ -49,7 +49,7 @@ const onSubmit = form.handleSubmit(async values => {
 </script>
 <template>
     <div class="w-full h-full flex justify-center items-center">
-        <form class="w-96 space-y-6" @submit.prevent="onSubmit">
+        <form class="w-96 space-y-6 px-6 md:px-0" @submit.prevent="onSubmit">
             <h2 class="text-lg font-bold">Register with your credentials</h2>
             <FormField v-slot="{ componentField }" name="name">
                 <UiFormItem>
