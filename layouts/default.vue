@@ -47,7 +47,7 @@ onMounted(() => {
             </button>
             <AppSidebar />
         </div>
-        <div class="w-full h-full p-[15px]">
+        <div class="w-full h-full p-[15px] lg:py-2">
             <button class="" v-if="!isLargeScreen" @click="open = true">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -189,7 +189,7 @@ onMounted(() => {
 <template>
     <div class="flex-grow">
         <div
-            class="py-2 md:py-4 bg-slate-200 px-6 text-gray-900 flex justify-between items-center"
+            class="py-2 md:py-4 bg-slate-200 px-6 text-gray-900 flex justify-between items-center rounded-md"
         >
             <div class="font-bold text-xl">
                 {{ route.params.category }}

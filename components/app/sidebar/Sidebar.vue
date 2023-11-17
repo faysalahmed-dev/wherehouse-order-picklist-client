@@ -153,7 +153,7 @@ onMounted(() => {
                     <UiAlertDialogTitle> Edit Category </UiAlertDialogTitle>
                     <UiAlertDialogDescription>
                         <UiInput
-                            placeholder="Write here..."
+                            placeholder="Type Category"
                             v-model="editItem.input"
                         />
                     </UiAlertDialogDescription>
@@ -190,6 +190,7 @@ onMounted(() => {
         </NuxtLink>
         <div class="px-2">
             <AppAutoComplete
+                label="Search or Create Category:"
                 :options="
                     categoriesOptions.map(item => ({
                         text: item.name,
