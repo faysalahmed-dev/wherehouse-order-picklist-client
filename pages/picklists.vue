@@ -139,7 +139,7 @@ const columns: ColumnDef<Orders>[] = [
         cell: ({ row }) => {
             const options = ['Edit', 'Delete'];
             if (user.value.user?.user_type === 'ADMIN')
-                options.unshift('Add to Pick List');
+                options.unshift('Remove Pick List');
             return h(OrderAction, {
                 options,
                 onItemClick,
@@ -256,8 +256,8 @@ function onItemClick(actionName: string, itemSnap: any) {
         orderInput.name = itemSnap.name;
         orderInput.unitType = itemSnap.unit_type;
         orderEditItem.value = itemSnap;
-    } else if (actionName === 'Add to Pick List') {
-        updateStatus(itemSnap.id, 1)
+    } else if (actionName === 'Remove Pick List') {
+        updateStatus(itemSnap.id, 0)
             .then(() => {
                 toast.successToast('added to pick list');
                 fetchOrders(tableOptions.page);
