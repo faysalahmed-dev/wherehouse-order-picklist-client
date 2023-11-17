@@ -13,6 +13,7 @@ const props = withDefaults(
         disabled?: boolean;
         focusOnFirstTime?: boolean;
         label?: string;
+        searchLoading?: boolean;
     }>(),
     {
         showAddButton: true,
@@ -21,6 +22,7 @@ const props = withDefaults(
         disabled: false,
         focusOnFirstTime: true,
         label: '',
+        searchLoading: false,
     }
 );
 let totalFocus = 0;
@@ -135,26 +137,32 @@ function clear() {
                 :placeholder="$attrs.placeholder || 'Type Here...'"
                 :disabled="props.disabled"
             />
-            <button
-                class="absolute top-[50%] right-[5px] -translate-y-1/2"
-                v-if="props.clearAble && search.length"
-                @click="clear"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
+            <div
+                v-if="searchLoading"
+                class="animate-spin bg-transparent border-2 border-black border-r-transparent w-3 h-3 rounded-full mr-2 absolute top-[50%] right-[5px] -mt-[6px]"
+            ></div>
+            <template v-if="!searchLoading">
+                <button
+                    class="absolute top-[50%] right-[5px] -translate-y-1/2"
+                    v-if="props.clearAble && search.length"
+                    @click="clear"
                 >
-                    <path
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-width="1.5"
-                        d="m8.464 15.535l7.072-7.07m-7.072 0l7.072 7.07"
-                    />
-                </svg>
-            </button>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-width="1.5"
+                            d="m8.464 15.535l7.072-7.07m-7.072 0l7.072 7.07"
+                        />
+                    </svg>
+                </button>
+            </template>
             <div
                 class="absolute w-full bg-white px-1 py-2 z-20 rounded-md border border-input text-black shadow-sm disabled:cursor-not-allowed disabled:opacity-50 mt-1 max-h-[300px]"
                 style="overflow: auto"
