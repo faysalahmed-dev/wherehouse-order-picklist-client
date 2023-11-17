@@ -9,6 +9,9 @@
 [role='region'][aria-label='Notifications (F8)'] {
     height: 0;
 }
+.router-link-active {
+    @apply text-emerald-500;
+}
 </style>
 <style scoped>
 body {
