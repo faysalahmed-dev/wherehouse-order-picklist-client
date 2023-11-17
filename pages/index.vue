@@ -319,7 +319,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="px-6 py-4">
+    <div class="py-6">
         <h2 class="font-bold text-3xl mb-7">All Orders</h2>
         <div class="flex justify-between items-end mb-6">
             <div>
