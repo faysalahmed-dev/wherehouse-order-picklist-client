@@ -12,10 +12,6 @@ import {
     deleteOrder,
 } from '~/api/order.api';
 
-definePageMeta({
-    alias: '/orders',
-});
-
 interface Orders {
     id: string;
     name: string;
@@ -324,7 +320,7 @@ onMounted(() => {
 
 <template>
     <div class="py-6">
-        <h2 class="font-bold text-3xl mb-7">All Orders</h2>
+        <h2 class="font-bold text-3xl mb-7">Pick List</h2>
         <div class="flex justify-between items-end mb-6">
             <div>
                 <p>Filters:</p>
