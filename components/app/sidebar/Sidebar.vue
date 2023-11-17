@@ -13,6 +13,10 @@ import { useUserStore, logoutUser } from '~/store/user.store';
 const toast = useAppToast();
 const user = useUserStore();
 
+const emits = defineEmits<{
+    (e: 'sidebarLinkClick'): void;
+}>();
+
 interface Category {
     id: string;
     name: string;
@@ -103,6 +107,7 @@ async function createCategory(value: string, confirmCallBack?: Function) {
 
 function handleSelect(val: Option) {
     navigateTo('/categories/' + val.value);
+    emits('sidebarLinkClick');
 }
 
 function fetchCategories() {
@@ -122,6 +127,10 @@ function fetchCategoriesOptions() {
         .catch(() => {
             categoriesOptions.value = [];
         });
+}
+
+function sidebarLinkClick() {
+    emits('sidebarLinkClick');
 }
 
 onMounted(() => {
@@ -178,16 +187,31 @@ onMounted(() => {
                 </UiAlertDialogFooter>
             </UiAlertDialogContent>
         </UiAlertDialog>
-        <NuxtLink to="/" class="py-2 pl-3 font-medium self-start">
-            Orders
-        </NuxtLink>
-        <NuxtLink
-            to="/picklists"
-            class="py-2 pl-3 font-medium self-start"
-            v-if="user?.user?.user_type === 'ADMIN'"
-        >
-            Picklists
-        </NuxtLink>
+        <div class="flex flex-col mt-[10px]">
+            <NuxtLink
+                to="/"
+                class="py-2 pl-3 font-medium self-start hover:text-emerald-500"
+                @click="sidebarLinkClick"
+            >
+                Orders
+            </NuxtLink>
+            <NuxtLink
+                to="/picklists"
+                class="py-2 pl-3 font-medium self-start hover:text-emerald-500"
+                v-if="user?.user?.user_type === 'ADMIN'"
+                @click="sidebarLinkClick"
+            >
+                Picklists
+            </NuxtLink>
+            <NuxtLink
+                to="/users"
+                class="py-2 pl-3 font-medium self-start hover:text-emerald-500"
+                v-if="user?.user?.user_type === 'ADMIN'"
+                @click="sidebarLinkClick"
+            >
+                Users
+            </NuxtLink>
+        </div>
         <div class="px-2">
             <AppAutoComplete
                 label="Search or Create Category:"
@@ -216,6 +240,7 @@ onMounted(() => {
                     <NuxtLink
                         class="font-medium text-green-600 inline-block py-1"
                         :to="`/categories/${category.value}`"
+                        @click="emits('sidebarLinkClick')"
                     >
                         {{ category.name }}
                     </NuxtLink>

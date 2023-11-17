@@ -8,6 +8,12 @@ watch(isLargeScreen, v => {
     if (open.value && !v) open.value = false;
 });
 
+function handleSidebarLinkClick() {
+    if (!isLargeScreen.value && open.value) {
+        open.value = false;
+    }
+}
+
 onMounted(() => {
     open.value = isLargeScreen.value;
 });
@@ -45,7 +51,7 @@ onMounted(() => {
                     />
                 </svg>
             </button>
-            <AppSidebar />
+            <AppSidebar @sidebar-link-click="handleSidebarLinkClick" />
         </div>
         <div class="w-full h-full p-[15px] lg:py-2">
             <button class="" v-if="!isLargeScreen" @click="open = true">
