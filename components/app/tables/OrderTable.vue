@@ -26,6 +26,7 @@ const tableOptions = reactive<TableOptions<TData>>({
     },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    enableColumnResizing: true,
 });
 const table = useVueTable(tableOptions as any);
 </script>

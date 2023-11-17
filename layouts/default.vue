@@ -15,27 +15,6 @@ onMounted(() => {
 
 <template>
     <main class="flex h-screen w-full">
-        <button
-            class="absolute top-[15px] left-[15px]"
-            v-if="!isLargeScreen"
-            @click="open = true"
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                viewBox="0 0 24 24"
-            >
-                <path
-                    fill="none"
-                    stroke="#000"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M20 18H4m16-4H4m16-4H4m16-4H4"
-                />
-            </svg>
-        </button>
         <div
             class="h-full w-52 shrink-0 top-0 left-0 z-20 transition-transform duration-200 ease-in-out"
             :class="[
@@ -68,7 +47,24 @@ onMounted(() => {
             </button>
             <AppSidebar />
         </div>
-        <div class="grow h-full mt-[15px] p-[15px]">
+        <div class="w-full h-full p-[15px]">
+            <button class="" v-if="!isLargeScreen" @click="open = true">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="25"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        fill="none"
+                        stroke="#000"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M20 18H4m16-4H4m16-4H4m16-4H4"
+                    />
+                </svg>
+            </button>
             <slot />
         </div>
     </main>

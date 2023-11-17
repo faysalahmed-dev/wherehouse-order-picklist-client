@@ -28,36 +28,13 @@ const user = useUserStore();
 const tableData = ref<Orders[]>([]);
 
 const columns: ColumnDef<Orders>[] = [
-    // {
-    //     id: 'select',
-    //     header: ({ table }) =>
-    //         h(Checkbox, {
-    //             checked: table.getIsAllPageRowsSelected(),
-    //             'onUpdate:checked': value =>
-    //                 table.toggleAllPageRowsSelected(!!value),
-    //             ariaLabel: 'Select all',
-    //         }),
-    //     cell: ({ row }) =>
-    //         h(Checkbox, {
-    //             checked: row.getIsSelected(),
-    //             'onUpdate:checked': value => row.toggleSelected(!!value),
-    //             ariaLabel: 'Select row',
-    //         }),
-    //     enableSorting: false,
-    //     enableHiding: false,
-    // },
     {
-        header: 'Item',
-        enableSorting: false,
-        enableColumnFilter: false,
-        enableResizing: true,
+        header: 'Name',
         accessorKey: 'name',
     },
     {
         header: 'Status',
-        enableSorting: true,
-        enableColumnFilter: true,
-        enableResizing: false,
+        minSize: 500,
         cell: ({ row }) => {
             return h(
                 'p',

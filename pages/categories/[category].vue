@@ -189,7 +189,7 @@ onMounted(() => {
 <template>
     <div class="flex-grow">
         <div
-            class="py-4 bg-slate-200 px-6 text-gray-900 flex justify-between items-center"
+            class="py-2 md:py-4 bg-slate-200 px-6 text-gray-900 flex justify-between items-center"
         >
             <div class="font-bold text-xl">
                 {{ route.params.category }}
@@ -209,7 +209,7 @@ onMounted(() => {
                 />
             </div>
         </div>
-        <div class="py-2 px-4 flex justify-between">
+        <div class="py-2 flex justify-between">
             <UiDialog v-model:open="categoryModel" @update:open="onDialogClose">
                 <UiDialogTrigger>
                     <UiButton class="w-full">Add Sub Category</UiButton>
@@ -258,7 +258,7 @@ onMounted(() => {
                 class="overflow-auto pb-2"
                 v-if="subcategories.length !== 0"
             >
-                <div class="grid grid-cols-3 gap-3 p-4">
+                <div class="grid grid-cols-3 gap-3 py-4">
                     <AppCategory
                         v-for="subcategory in subcategories"
                         :id="subcategory.id"
