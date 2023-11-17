@@ -97,8 +97,9 @@ const table = useVueTable(tableOptions as any);
                 :total-items="props.totalItems"
                 :items-per-page="props.itemPerPage"
                 v-model:page="pageCount"
+                v-if="pageCount > 1"
             />
-            <p>Total Items: {{ props.totalItems }}</p>
+            <p class="ml-auto">Total Items: {{ props.totalItems || 0 }}</p>
         </div>
     </div>
 </template>
