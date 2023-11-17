@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { handleDelete } from '~/composables/useDeleteConfirmation';
-const { open, closeDialog, loading } = useDeleteConfirmation();
+const { open, closeDialog, loading, buttonText } = useDeleteConfirmation();
 </script>
 
 <template>
@@ -30,7 +30,7 @@ const { open, closeDialog, loading } = useDeleteConfirmation();
                         v-if="loading"
                         class="animate-spin bg-transparent border-2 border-white border-r-transparent w-3 h-3 rounded-full mr-2"
                     ></div>
-                    Delete
+                    {{ buttonText }}
                 </UiAlertDialogAction>
             </UiAlertDialogFooter>
         </UiAlertDialogContent>
