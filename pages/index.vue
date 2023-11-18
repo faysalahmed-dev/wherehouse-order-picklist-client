@@ -406,6 +406,7 @@ onMounted(() => {
             :itemPerPage="tableOptions.itemPerPage"
             :totalItems="tableOptions.totalItems"
             :loading="tableOptions.loading"
+            @reload="fetchOrders(tableOptions.page, {category: filterBy.category, sub_category: filterBy.subCategory});"
         />
     </div>
 </template>
