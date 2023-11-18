@@ -153,9 +153,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <aside
-        class="pt-4 pb-1 bg-slate-200 flex flex-col gap-y-3 fixed top-0 left-0 h-full"
-    >
+    <aside class="pt-4 pb-1 bg-slate-200 flex flex-col gap-y-3 h-full">
         <UiAlertDialog v-model:open="showEditModel">
             <UiAlertDialogContent>
                 <UiAlertDialogHeader>

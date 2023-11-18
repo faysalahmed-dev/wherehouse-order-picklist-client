@@ -31,12 +31,17 @@ onMounted(() => {
     </p>
     <main class="flex h-screen w-full" v-else>
         <div
-            class="h-full w-52 shrink-0 top-0 left-0 z-20 transition-transform duration-200 ease-in-out"
+            v-if="isLargeScreen"
+            class="h-full shrink-0"
+            :class="open ? 'w-52' : 'w-0'"
+        ></div>
+        <div
+            class="h-full w-52 shrink-0 top-0 fixed left-0 z-20 transition-transform duration-200 ease-in-out"
             :class="[
                 open
                     ? 'transform translate-x-0'
                     : 'transform -translate-x-full',
-                isLargeScreen ? '' : 'absolute',
+                // isLargeScreen ? '' : '',
             ]"
         >
             <button
