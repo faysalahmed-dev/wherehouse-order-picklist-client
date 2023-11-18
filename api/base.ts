@@ -19,6 +19,14 @@ export const api = <T>(path: string, options: any): Promise<T> => {
                     userStore.value.user = null;
                     await navigateTo('/auth/login');
                     reject(response._data);
+                } else if (
+                    response.status === 403 &&
+                    response._data.message === 'account blocked'
+                ) {
+                    if (userStore.value.user) {
+                        userStore.value.user.blocked = true;
+                    }
+                    reject(response._data);
                 } else if (response.ok) {
                     resolve(response._data);
                 } else {

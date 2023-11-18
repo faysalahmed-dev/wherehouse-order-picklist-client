@@ -8,6 +8,7 @@ export interface Auth {
         name: string;
         created_at: Date;
         updated_at: Date;
+        blocked: boolean;
         user_type: 'USER' | 'ADMIN';
     } | null;
 }

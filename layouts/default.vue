@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { useUserStore, logoutUser } from '~/store/user.store';
 const open = ref(false);
-
+const user = useUserStore();
 const isLargeScreen = useMediaQuery('(min-width: 1024px)');
 
 watch(isLargeScreen, v => {
@@ -20,7 +21,15 @@ onMounted(() => {
 </script>
 
 <template>
-    <main class="flex h-screen w-full">
+    <p v-if="!user.user" class="py-4 text-red-500">Your not logged in.</p>
+    <p v-else-if="user.user.blocked" class="py-4 text-red-500 text-center">
+        Your Account blocked
+        <br />
+        <UiButton @click="logoutUser" size="sm" variant="secondary">
+            Logout
+        </UiButton>
+    </p>
+    <main class="flex h-screen w-full" v-else>
         <div
             class="h-full w-52 shrink-0 top-0 left-0 z-20 transition-transform duration-200 ease-in-out"
             :class="[

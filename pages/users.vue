@@ -264,6 +264,11 @@ onMounted(() => {
             :itemPerPage="tableOptions.itemPerPage"
             :totalItems="tableOptions.totalItems"
             :loading="tableOptions.loading"
+            @reload="
+                fetchUses(tableOptions.page, {
+                    status_type: filterBy.statusType,
+                })
+            "
         />
     </div>
 </template>
