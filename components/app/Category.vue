@@ -1,16 +1,14 @@
 <script setup lang="ts">
+import type { SubCategory } from '~/api/sub-category.api';
+
 const props = defineProps<{
-    id: string;
-    title: string;
-    descriptions: string;
-    slug: string;
+    data: SubCategory;
     showEdit: boolean;
-    path: string;
 }>();
 
 const emits = defineEmits<{
     (e: 'onSave', v: any[]): void;
-    (e: 'editItem', v: typeof props): void;
+    (e: 'editItem', v: SubCategory): void;
     (e: 'deleteItem', v: string): void;
 }>();
 </script>
@@ -24,18 +22,23 @@ const emits = defineEmits<{
                     <IconThreeDot />
                 </UiDropdownMenuTrigger>
                 <UiDropdownMenuContent>
-                    <UiDropdownMenuItem @click="emits('editItem', props)">
+                    <UiDropdownMenuItem @click="emits('editItem', props.data)">
                         Edit
                     </UiDropdownMenuItem>
-                    <UiDropdownMenuItem @click="emits('deleteItem', props.id)">
+                    <UiDropdownMenuItem
+                        @click="emits('deleteItem', props.data.id)"
+                    >
                         Delete
                     </UiDropdownMenuItem>
                 </UiDropdownMenuContent>
             </UiDropdownMenu>
         </div>
-        <h3 class="text-2xl font-bold">{{ props.title }}</h3>
-        <p class="opacity-95 flex-grow">{{ props.descriptions }}</p>
-        <NuxtLink :to="path" class="w-full">
+        <h3 class="text-2xl font-bold">{{ props.data.name }}</h3>
+        <p class="opacity-95 flex-grow">{{ props.data.description }}</p>
+        <NuxtLink
+            :to="`/categories/${props.data.category.value}/${props.data.value}`"
+            class="w-full"
+        >
             <UiButton size="sm" class="w-full"> View Product </UiButton>
         </NuxtLink>
     </div>

@@ -224,11 +224,7 @@ onMounted(() => {
                 <div class="grid grid-cols-3 gap-3 py-4">
                     <AppCategory
                         v-for="subcategory in subcategories"
-                        :id="subcategory.id"
-                        :title="subcategory.name"
-                        :descriptions="subcategory.description"
-                        :slug="subcategory.value"
-                        :path="`/categories/${route.params.category}/products`"
+                        :data="subcategory"
                         :showEdit="
                             user.user?.type === 'ADMIN' ||
                             subcategory.userId === user?.user?.id
@@ -237,8 +233,8 @@ onMounted(() => {
                             item => {
                                 editItemId = item.id;
                                 categoryModel = true;
-                                categoryInput.descriptions = item.descriptions;
-                                categoryInput.title = item.title;
+                                categoryInput.descriptions = item.description;
+                                categoryInput.title = item.name;
                             }
                         "
                         @deleteItem="
