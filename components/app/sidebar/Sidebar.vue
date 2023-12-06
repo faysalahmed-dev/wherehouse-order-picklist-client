@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { APIResponse } from '~/types/response';
 import { useAppToast } from '~/composables/useAppToast';
 import type { Option } from '~/components/app/AutoComplete.vue';
 import {
@@ -8,6 +7,7 @@ import {
     deleteCategory as deleteCategoryApi,
     saveCategory,
 } from '~/api/category.api';
+import type { Category, CategoryOption } from '~/api/category.api';
 import { useUserStore, logoutUser } from '~/store/user.store';
 
 const toast = useAppToast();
@@ -17,19 +17,8 @@ const emits = defineEmits<{
     (e: 'sidebarLinkClick'): void;
 }>();
 
-interface Category {
-    id: string;
-    name: string;
-    value: string;
-    created_at: string;
-    updated_at: string;
-    edges: {
-        user: any;
-    };
-}
-
-const categories = shallowRef<APIResponse<Category[]>['data']>([]);
-const categoriesOptions = ref<APIResponse<Category[]>['data']>([]);
+const categories = shallowRef<Category[]>([]);
+const categoriesOptions = ref<CategoryOption[]>([]);
 
 const currentDeleteItem = ref<string | null>(null);
 const { onDelete, deleteItem, open: isDialogOpen } = useDeleteConfirmation();
@@ -111,13 +100,13 @@ function handleSelect(val: Option) {
 }
 
 function fetchCategories() {
-    getAllCategories().then((res: any) => {
+    getAllCategories().then(res => {
         categories.value = res.data;
     });
 }
 function fetchCategoriesOptions() {
     getAllCategoriesOptions()
-        .then((res: any) => {
+        .then(res => {
             if (res.data) {
                 categoriesOptions.value = res.data;
             } else {
@@ -196,7 +185,7 @@ onMounted(() => {
             <NuxtLink
                 to="/picklists"
                 class="py-2 pl-3 font-medium self-start hover:text-emerald-500"
-                v-if="user?.user?.user_type === 'ADMIN'"
+                v-if="user?.user?.type === 'ADMIN'"
                 @click="sidebarLinkClick"
             >
                 Picklists
@@ -204,7 +193,7 @@ onMounted(() => {
             <NuxtLink
                 to="/users"
                 class="py-2 pl-3 font-medium self-start hover:text-emerald-500"
-                v-if="user?.user?.user_type === 'ADMIN'"
+                v-if="user?.user?.type === 'ADMIN'"
                 @click="sidebarLinkClick"
             >
                 Users
@@ -244,8 +233,8 @@ onMounted(() => {
                     </NuxtLink>
                     <UiDropdownMenu
                         v-if="
-                            user?.user?.user_type === 'ADMIN' ||
-                            user.user?.id === category?.edges?.user?.id
+                            user?.user?.type === 'ADMIN' ||
+                            user.user?.id === category.userId
                         "
                     >
                         <UiDropdownMenuTrigger>

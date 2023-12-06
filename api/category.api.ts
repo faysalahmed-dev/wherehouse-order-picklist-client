@@ -1,10 +1,12 @@
 import { PaginationAPIResponse } from '~/types/response';
 import { api } from './base';
 
-export interface Category {
+export interface CategoryOption {
     id: string;
     name: string;
     value: string;
+}
+export interface Category extends CategoryOption {
     userId: string;
     user: {
         id: string;
@@ -14,7 +16,9 @@ export interface Category {
 }
 
 export function getAllCategoriesOptions() {
-    return api(`/categories/options`, { method: 'get' });
+    return api<PaginationAPIResponse<CategoryOption[]>>(`/categories/options`, {
+        method: 'get',
+    });
 }
 
 export function getAllCategories(page = 1) {
