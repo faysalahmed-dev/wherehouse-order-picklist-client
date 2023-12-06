@@ -228,6 +228,7 @@ onMounted(() => {
                         :title="subcategory.name"
                         :descriptions="subcategory.description"
                         :slug="subcategory.value"
+                        :path="`/categories/${route.params.category}/products`"
                         :showEdit="
                             user.user?.type === 'ADMIN' ||
                             subcategory.userId === user?.user?.id
