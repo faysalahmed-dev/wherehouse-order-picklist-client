@@ -1,39 +1,27 @@
 <script setup lang="ts">
-import type { PaginationAPIResponse } from '~/types/response';
 import {
     getAllSubCategories,
     getAllSubCategoriesOptions,
     deleteSubCategory,
-    saveSubCategory as apiSaveSubCategory,
+    addSubCategory,
+    updateSubCategory,
 } from '~/api/sub-category.api';
-import { useUserStore } from '~/store/user.store';
-import type { Auth } from '~/store/user.store';
 
-interface SubCategory {
-    id: string;
-    name: string;
-    value: string;
-    descriptions: string;
-    created_at: Date;
-    updated_at: Date;
-    edges: {
-        user: Auth['user'];
-    };
-}
+import type { SubCategory, SubCategoryOpt } from '~/api/sub-category.api';
+
+import { useUserStore } from '~/store/user.store';
+
 const user = useUserStore();
 const route = useRoute('categories-category');
 const toast = useAppToast();
 
-const subcategoriesOptions = shallowRef<
-    PaginationAPIResponse<SubCategory[]>['data']
->([]);
+const subcategoriesOptions = shallowRef<SubCategoryOpt[]>([]);
+const subcategories = shallowRef<SubCategory[]>([]);
+
 const pageLoading = ref(false);
 const loadingSubCategories = ref(false);
 const pageCount = shallowRef(1);
 const totalPages = shallowRef(0);
-const subcategories = shallowRef<PaginationAPIResponse<SubCategory[]>['data']>(
-    []
-);
 
 const categoryModel = ref(false);
 const savingSubCategory = ref(false);
@@ -50,18 +38,14 @@ async function saveSubCategory() {
     let res: Promise<any>;
     savingSubCategory.value = true;
     if (editItemId.value) {
-        res = apiSaveSubCategory(
-            {
-                name: categoryInput.value.title,
-                descriptions: categoryInput.value.descriptions,
-            },
-            editItemId.value
-        );
-    } else {
-        res = apiSaveSubCategory({
+        res = updateSubCategory(editItemId.value, {
             name: categoryInput.value.title,
-            descriptions: categoryInput.value.descriptions,
-            category_slug: route.params.category,
+            description: categoryInput.value.descriptions,
+        });
+    } else {
+        res = addSubCategory(route.params.category, {
+            name: categoryInput.value.title,
+            description: categoryInput.value.descriptions,
         });
     }
     res.then(() => {
@@ -187,32 +171,11 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex-grow">
-        <div
-            class="py-2 md:py-4 bg-slate-200 px-6 text-gray-900 flex justify-between items-center rounded-md"
-        >
-            <div class="font-bold text-xl">
-                {{ route.params.category }}
-            </div>
-            <div class="w-44">
-                <AppAutoComplete
-                    type="text"
-                    class="w-44"
-                    placeholder="Search sub categories..."
-                    :options="
-                        subcategoriesOptions?.map(item => ({
-                            text: item.name,
-                            value: item.value,
-                        })) || []
-                    "
-                    @addNewItem="addNewItem"
-                />
-            </div>
-        </div>
+    <NuxtLayout name="category">
         <div class="py-2 flex justify-between">
             <UiDialog v-model:open="categoryModel" @update:open="onDialogClose">
                 <UiDialogTrigger>
-                    <UiButton class="w-full">Add Sub Category</UiButton>
+                    <UiButton class="w-full mt-2">Add Sub Category</UiButton>
                 </UiDialogTrigger>
                 <UiDialogContent class="max-w-2xl text-gray-900 border-none">
                     <UiDialogHeader>
@@ -263,11 +226,11 @@ onMounted(() => {
                         v-for="subcategory in subcategories"
                         :id="subcategory.id"
                         :title="subcategory.name"
-                        :descriptions="subcategory.descriptions"
+                        :descriptions="subcategory.description"
                         :slug="subcategory.value"
                         :showEdit="
-                            user.user?.user_type === 'ADMIN' ||
-                            subcategory.edges?.user?.id === user?.user?.id
+                            user.user?.type === 'ADMIN' ||
+                            subcategory.userId === user?.user?.id
                         "
                         @editItem="
                             item => {
@@ -287,5 +250,5 @@ onMounted(() => {
                 </div>
             </div>
         </template>
-    </div>
+    </NuxtLayout>
 </template>
