@@ -1,16 +1,9 @@
 import { createGlobalState, useStorage } from '@vueuse/core';
+import type { User } from '~/api/users.api';
 
 export interface Auth {
     token: string | null;
-    user: {
-        email: string;
-        id: string;
-        name: string;
-        created_at: Date;
-        updated_at: Date;
-        blocked: boolean;
-        user_type: 'USER' | 'ADMIN';
-    } | null;
+    user: User | null;
 }
 
 const defaultValue = {

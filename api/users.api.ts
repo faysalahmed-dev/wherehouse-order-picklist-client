@@ -1,4 +1,14 @@
+import type { APIResponse } from '~/types/response';
 import { api } from './base';
+
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    created_at: Date;
+    updated_at: Date;
+    type: 'USER' | 'ADMIN';
+}
 
 export function getAllUsers<T>(
     page?: number,
@@ -12,6 +22,12 @@ export function getAllUsers<T>(
     return api<T>(`/user/users`, {
         method: 'get',
         query,
+    });
+}
+
+export function getUserById(userId: string) {
+    return api<APIResponse<User>>(`/user/user-info/${userId}`, {
+        method: 'get',
     });
 }
 
