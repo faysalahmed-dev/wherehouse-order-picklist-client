@@ -42,20 +42,21 @@ export function deleteSubCategory(id: string) {
         method: 'delete',
     });
 }
-
-export function saveSubCategory(
-    data: { name: string; description: string },
-    id?: string
+export function addSubCategory(
+    category: string,
+    data: { name: string; description: string }
 ) {
-    if (id) {
-        return api(`/sub-categories/edit/${id}`, {
-            method: 'patch',
-            body: JSON.stringify(data),
-        });
-    } else {
-        return api('/sub-categories/add-subcategory', {
-            method: 'post',
-            body: JSON.stringify(data),
-        });
-    }
+    return api(`/sub-categories/add-subcategory/${category}`, {
+        method: 'post',
+        body: JSON.stringify(data),
+    });
+}
+export function updateSubCategory(
+    id: string,
+    data: { name: string; description: string }
+) {
+    return api(`/sub-categories/edit/${id}`, {
+        method: 'patch',
+        body: JSON.stringify(data),
+    });
 }
