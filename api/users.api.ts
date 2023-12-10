@@ -7,6 +7,7 @@ export interface User {
     email: string;
     created_at: Date;
     updated_at: Date;
+    blocked: number;
     type: 'USER' | 'ADMIN';
 }
 
@@ -33,10 +34,10 @@ export function getUserById(userId: string) {
 
 export function searchUsersByName<T>(
     name: string,
-    options?: { status_type?: 'all' | 'blocked' | 'unblocked' }
+    options?: { status_type?: 'all' | 'blocked' }
 ) {
     const query = { name } as {
-        status_type?: 'all' | 'blocked' | 'unblocked';
+        status_type?: 'all' | 'blocked';
     };
     if (options?.status_type) query.status_type = options.status_type;
     return api<T>(`/user/search-users`, {
@@ -51,9 +52,9 @@ export function deleteUser(userID: string) {
     });
 }
 
-export function changeUserStatus(userID: string, status: boolean) {
-    return api(`/user/${userID}`, {
+export function changeUserStatus(userID: string, blocked: 1 | 0) {
+    return api(`/user/${userID}/update-status`, {
         method: 'patch',
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ blocked }),
     });
 }
