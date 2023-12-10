@@ -182,14 +182,14 @@ onMounted(() => {
             >
                 Orders
             </NuxtLink>
-            <NuxtLink
+            <!-- <NuxtLink
                 to="/picklists"
                 class="py-2 pl-3 font-medium self-start hover:text-emerald-500"
                 v-if="user?.user?.type === 'ADMIN'"
                 @click="sidebarLinkClick"
             >
                 Picklists
-            </NuxtLink>
+            </NuxtLink> -->
             <NuxtLink
                 to="/users"
                 class="py-2 pl-3 font-medium self-start hover:text-emerald-500"
