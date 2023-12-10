@@ -8,4 +8,5 @@ export interface PaginationAPIResponse<T> {
     limit: number;
     page: number;
     total_pages: number;
+    total_items: number;
 }
