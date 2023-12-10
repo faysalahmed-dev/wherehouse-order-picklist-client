@@ -3,11 +3,9 @@ import type { ColumnDef } from '@tanstack/vue-table';
 import OrderAction from '~/components/app/tables/OrderAction.vue';
 import {
     getAllUsers,
-    searchUsersByName,
     changeUserStatus,
     deleteUser as apiDeleteUser,
 } from '~/api/users.api';
-import type { Option } from '~/components/app/AutoComplete.vue';
 
 interface UserList {
     id: string;
@@ -30,8 +28,9 @@ const columns: ColumnDef<UserList>[] = [
         accessorKey: 'email',
     },
     {
-        header: 'blocked',
+        header: 'Blocked',
         cell: ({ row }) => {
+            console.log(row.original);
             return h(
                 'p',
                 {
@@ -39,13 +38,9 @@ const columns: ColumnDef<UserList>[] = [
                         row.original.blocked ? 'bg-red-500' : 'bg-green-500'
                     }`,
                 },
-                row.original.blocked
+                !!row.original.blocked
             );
         },
-    },
-    {
-        header: 'Total Orders',
-        accessorKey: 'total_orders',
     },
     {
         header: 'Created Date',
@@ -80,7 +75,6 @@ const filterOptions = {
     statusType: [
         { text: 'All', value: 'all' },
         { text: 'Blocked', value: 'blocked' },
-        { text: 'Active', value: 'unblocked' },
     ],
 };
 
@@ -110,20 +104,14 @@ watch(filterBy, ({ statusType }) => {
     }
 });
 
-function fetchUses(
-    page: number,
-    opt?: { status_type?: 'all' | 'blocked' | 'unblocked' }
-) {
+function fetchUses(page: number, opt?: { status_type?: 'all' | 'blocked' }) {
     tableOptions.loading = true;
     getAllUsers(page, opt)
         .then((res: any) => {
-            console.log(res);
             tableData.value = res.data;
             tableOptions.itemPerPage = res.limit;
             tableOptions.totalItems = res.total_items;
             tableOptions.totalPages = res.total_pages;
-
-            console.log(tableOptions.totalItems);
         })
         .finally(() => {
             tableOptions.loading = false;
@@ -154,7 +142,7 @@ onDelete('order_item', async function () {
     }
 });
 
-const userStatusChangeItemSnap = ref<null | { id: string; status: boolean }>(
+const userStatusChangeItemSnap = ref<null | { id: string; status: 1 | 0 }>(
     null
 );
 onDelete('user_status', async function () {
@@ -179,35 +167,35 @@ function onItemClick(actionName: string, itemSnap: any) {
         currentDeleteItem.value = itemSnap.id;
         deleteItem('order_item');
     } else if (actionName === 'Block') {
-        userStatusChangeItemSnap.value = { id: itemSnap.id, status: true };
+        userStatusChangeItemSnap.value = { id: itemSnap.id, status: 1 };
         deleteItem('user_status', 'Save');
     } else if (actionName === 'UnBlock') {
-        userStatusChangeItemSnap.value = { id: itemSnap.id, status: false };
+        userStatusChangeItemSnap.value = { id: itemSnap.id, status: 0 };
         deleteItem('user_status', 'Save');
     }
 }
-const searchingUser = ref(false);
-const searchUserOptions = ref<UserList[]>([]);
-const searchFilterUser = ref<UserList[]>([]);
-async function searchUser(query: string) {
-    if (!query.length) return;
-    try {
-        searchingUser.value = true;
-        const result = await searchUsersByName(query);
-        searchUserOptions.value = (result as any).data;
-        searchingUser.value = false;
-    } catch (err) {
-        searchingUser.value = false;
-    }
-}
-function setSearchFilterUserToTable({ value }: { value: string }) {
-    const hasUser = searchUserOptions.value.find(item => item.id === value);
-    if (hasUser) {
-        searchFilterUser.value = [{ ...hasUser }];
-    } else {
-        searchFilterUser.value = [];
-    }
-}
+// const searchingUser = ref(false);
+// const searchUserOptions = ref<UserList[]>([]);
+// const searchFilterUser = ref<UserList[]>([]);
+// async function searchUser(query: string) {
+//     if (!query.length) return;
+//     try {
+//         searchingUser.value = true;
+//         const result = await searchUsersByName(query);
+//         searchUserOptions.value = (result as any).data;
+//         searchingUser.value = false;
+//     } catch (err) {
+//         searchingUser.value = false;
+//     }
+// }
+// function setSearchFilterUserToTable({ value }: { value: string }) {
+//     const hasUser = searchUserOptions.value.find(item => item.id === value);
+//     if (hasUser) {
+//         searchFilterUser.value = [{ ...hasUser }];
+//     } else {
+//         searchFilterUser.value = [];
+//     }
+// }
 
 onMounted(() => {
     fetchUses(1);
@@ -237,7 +225,7 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
-            <div>
+            <!-- <div>
                 <p class="font-bold">Search:</p>
                 <div class="flex gap-4">
                     <AppAutoComplete
@@ -255,12 +243,12 @@ onMounted(() => {
                         :search-loading="searchingUser"
                     />
                 </div>
-            </div>
+            </div> -->
         </div>
         <AppTablesOrderTable
             v-model:page="tableOptions.page"
             :columns="columns"
-            :tableData="searchFilterUser.length ? searchFilterUser : tableData"
+            :tableData="tableData"
             :itemPerPage="tableOptions.itemPerPage"
             :totalItems="tableOptions.totalItems"
             :loading="tableOptions.loading"
